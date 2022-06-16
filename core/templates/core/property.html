@@ -1,0 +1,65 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block page_name %}Select Hotel{% endblock page_name %}
+
+{% block static_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'core/scss/property.scss' %}" type="text/x-scss" media="screen">
+{% endblock static_css %}
+
+{% block content %}
+    {{ block.super }}
+    <form method="post" id="form-property" autocomplete="off">
+        {% csrf_token %}
+        <div class="row page-header">
+            <div class="col-12">
+                Select Hotel
+            </div>
+        </div>
+        <div class="row page-content">
+            <div class="col-12">
+                {% for prop in properties %}
+                    <div class="thumbnail-container" id="thumbnail-container-{{ forloop.counter0 }}">
+                        <label class="label-thumbnail" style="background-image: url('{{ prop.image }}');">
+                            <input type="radio" name="property_id" value="{{ prop.id }}" id="id_property_id_{{ forloop.counter0 }}" hidden>
+                        </label>
+                        <div class="thumbnail-details">
+                            <div class="text-left">
+                                <div class="text-a-dark">{{ prop.description }}</div>
+                                <div class="text-c-neutral">{{ prop.address }}</div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </form>
+{% endblock content %}
+
+{% block wrapper %}
+    {{ block.super }}
+    <!-- Error Modal -->
+    {% for error in form.non_field_errors %}
+        <div class="modal fade auto-show" id="error-modal-{{ forloop.counter0 }}" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title mx-auto">Invalid Input</div>
+                    </div>
+                    <div class="modal-body">
+                        {{ error|linebreaks }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary mx-auto" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock wrapper %}
+
+{% block static_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'core/js/property.js' %}"></script>
+{% endblock static_js %}

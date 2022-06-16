@@ -1,0 +1,282 @@
+// select
+select.md-select {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem 1.75rem .375rem .75rem;
+    line-height: 1.5;
+    transition: background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    &:not([disabled]):not(.disabled) {
+        background: transparent
+        url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e")
+        no-repeat right 12px center/8px 10px;
+    }
+
+    &:focus:not([readonly]) {
+        border-bottom: 1px solid map-get(map-get($theme-colors, info), base);
+        -webkit-box-shadow: 0 1px 0 0 map-get(map-get($theme-colors, info), base);
+        box-shadow: 0 1px 0 0 map-get(map-get($theme-colors, info), base);
+    }
+}
+
+// checkbox
+// https://www.w3schools.com/howto/howto_css_custom_checkbox.asp
+.check-container {
+    position: relative;
+    padding-left: 45px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    display: flex;
+    min-height: 29px;
+    align-items: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    .check-input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+
+        &:checked ~ .check-icon {
+            border: 2px solid map-get(map-get($theme-colors, dark), base);
+            border-radius: 3px;
+
+            &:after {
+                display: block;
+            }
+        }
+
+        // radio
+        &[type=radio] ~ .check-icon {
+            border-radius: 50%;
+
+            &:after {
+                top: 6px;
+                left: 6px;
+                width: 9px;
+                height: 9px;
+                border-radius: 50%;
+                background: map-get(map-get($theme-colors, dark), base);
+            }
+        }
+
+        // checkbox
+        &[type=checkbox] ~ .check-icon {
+            &:after {
+                left: 7px;
+                top: 2px;
+                width: 7px;
+                height: 13px;
+                border: solid map-get(map-get($theme-colors, dark), base);
+                border-width: 0 2px 2px 0;
+                -webkit-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                transform: rotate(45deg);
+            }
+        }
+    }
+
+    .check-icon {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        border: 2px solid map-get(map-get($theme-colors, dark), base);
+        border-radius: 3px;
+        margin-top: 3px;
+
+        &:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+    }
+
+    &.is-invalid {
+        .check-icon {
+            border-color: map-get(map-get($theme-colors, danger), base);
+        }
+    }
+}
+
+// multiple choice
+.multiple-choice {
+
+    .choice {
+        margin: 6px 0;
+        padding: 5px 12px;
+        cursor: pointer;
+        border-radius: 24px;
+        border: 1px solid map-get(map-get($theme-colors, primary), base);
+        color: map-get(map-get($theme-colors, primary), base);
+        background: transparent;
+        font-size: map-get($text-c, font-size);
+        font-weight: map-get($text-c, font-weight);
+
+        &.selected {
+            color: map-get(map-get($theme-colors, primary), alt);
+            background: map-get(map-get($theme-colors, primary), base);;
+        }
+    }
+}
+
+
+.md-form {
+    margin: 14px 0 20px 0;
+
+    &> label {
+        margin-bottom: 4px;
+        color: map-get(map-get($theme-colors, neutral), base);
+
+        &.active {
+            font-size: map-get($text-c, font-size);
+        }
+    }
+
+    input:not([type]), 
+    input[type="text"]:not(.browser-default), 
+    input[type="password"]:not(.browser-default), 
+    input[type="email"]:not(.browser-default), 
+    input[type="url"]:not(.browser-default), 
+    input[type="time"]:not(.browser-default), 
+    input[type="date"]:not(.browser-default), 
+    input[type="datetime"]:not(.browser-default), 
+    input[type="datetime-local"]:not(.browser-default), 
+    input[type="tel"]:not(.browser-default), 
+    input[type="number"]:not(.browser-default), 
+    input[type="search"]:not(.browser-default), 
+    input[type="phone"]:not(.browser-default), 
+    input[type="search-md"],
+    textarea.md-textarea,
+    select.md-select {
+        border-top: none;
+        border-right: none;
+        border-bottom: 1px solid map-get(map-get($theme-colors, neutral), base);
+        border-left: none;
+        border-radius: 0;
+    }
+
+    input:not([type]):focus:not([readonly])+label,
+    input[type="text"]:not(.browser-default):focus:not([readonly])+label,
+    input[type="password"]:not(.browser-default):focus:not([readonly])+label,
+    input[type="email"]:not(.browser-default):focus:not([readonly])+label,
+    input[type="url"]:not(.browser-default):focus:not([readonly])+label,
+    input[type="time"]:not(.browser-default):focus:not([readonly])+label,
+    input[type="date"]:not(.browser-default):focus:not([readonly])+label,
+    input[type="datetime"]:not(.browser-default):focus:not([readonly])+label,
+    input[type="datetime-local"]:not(.browser-default):focus:not([readonly])+label,
+    input[type="tel"]:not(.browser-default):focus:not([readonly])+label,
+    input[type="number"]:not(.browser-default):focus:not([readonly])+label,
+    input[type="search"]:not(.browser-default):focus:not([readonly])+label,
+    input[type="phone"]:not(.browser-default):focus:not([readonly])+label,
+    input[type="search-md"]:focus:not([readonly])+label,
+    textarea.md-textarea:focus:not([readonly])+label,
+    select.md-select:focus:not([readonly])+label {
+        color: map-get(map-get($theme-colors, info), base);
+    }
+
+    input:not([type]).filled, 
+    input[type="text"]:not(.browser-default).filled, 
+    input[type="password"]:not(.browser-default.filled), 
+    input[type="email"]:not(.browser-default).filled, 
+    input[type="url"]:not(.browser-default).filled, 
+    input[type="time"]:not(.browser-default).filled, 
+    input[type="date"]:not(.browser-default).filled, 
+    input[type="datetime"]:not(.browser-default).filled, 
+    input[type="datetime-local"]:not(.browser-default).filled, 
+    input[type="tel"]:not(.browser-default).filled, 
+    input[type="number"]:not(.browser-default).filled, 
+    input[type="search"]:not(.browser-default).filled, 
+    input[type="phone"]:not(.browser-default).filled, 
+    input[type="search-md"].filled,
+    textarea.md-textarea.filled,
+    select.md-select.filled {
+        border: 1px solid map-get(map-get($theme-colors, neutral), base);
+        padding: 16px 14px;
+        border-radius: 8px;
+
+        &+label {
+            top: 7px;
+            left: 11px;
+            padding: 0 4px;
+
+            &.active {
+                background-color: #FFFFFF; // need to change if background is changed
+                -webkit-transform: translateY(-18px) scale(.8);
+                transform: translateY(-18px) scale(.8);
+            }
+        }
+    }
+
+    &.input-with-post-icon .input-prefix {
+        right: 3px;
+        top: 47%;
+    }
+
+    .form-control {
+        font-size: map-get($text-a, font-size);
+        color: map-get(map-get($theme-colors, dark), base);
+        padding: 4px 0 3px 0;
+    
+        &:disabled, &.disabled {
+            border: none !important;
+            color: map-get(map-get($theme-colors, neutral), base)
+        }
+
+        &.filled{
+            &:focus:not([readonly]) {
+                border: 1px solid map-get(map-get($theme-colors, info), base) !important;
+                -webkit-box-shadow: none !important;
+                box-shadow: none !important;
+            }
+            &.is-invalid {
+                background-image: none;
+
+                &:focus {
+                    border-color: map-get(map-get($theme-colors, danger), base) !important;
+                }
+            }
+        }
+        
+    
+        &:focus:not([readonly]) {
+            border-bottom: 1px solid map-get(map-get($theme-colors, info), base) !important;
+            -webkit-box-shadow: 0 1px 0 0 map-get(map-get($theme-colors, info), base) !important;
+            box-shadow: 0 1px 0 0 map-get(map-get($theme-colors, info), base) !important;
+        }
+    
+        &.is-invalid {
+            border-color: map-get(map-get($theme-colors, danger), base) !important;
+            
+            &:focus {
+                border-color: map-get(map-get($theme-colors, danger), base) !important;
+                -webkit-box-shadow: 0 1px 0 0 map-get(map-get($theme-colors, danger), base) !important;
+                box-shadow: 0 1px 0 0 map-get(map-get($theme-colors, danger), base) !important;
+            }
+
+            &+label {
+                color: map-get(map-get($theme-colors, danger), base) !important;
+            }
+        }
+    
+        &::placeholder {
+            color: map-get(map-get($theme-colors, neutral), base);
+            opacity: 1; /* Firefox */
+        }
+        &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+            color: map-get(map-get($theme-colors, neutral), base);
+        }
+        &::-ms-input-placeholder { /* Microsoft Edge */
+            color: map-get(map-get($theme-colors, neutral), base);
+        }
+    }
+}

@@ -1,0 +1,77 @@
+/********************/
+// DEFAULT VARIABLE //
+/********************/
+$default__theme-colors: (
+    primary     : (base: #145996, alt: #FFFFFF),
+    success     : (base: #0DCF00, alt: #FFFFFF),
+    info        : (base: #5A76FF, alt: #FFFFFF),
+    danger      : (base: #FF0000, alt: #FFFFFF),
+    dark        : (base: #000000, alt: #FFFFFF),
+    light       : (base: #FFFFFF, alt: #000000),
+    neutral     : (base: #A5A5A5, alt: #FFFFFF),
+    secondary   : (base: #D8D8D8, alt: #A5A5A5),
+);
+$default__font-family : 'Poppins', sans-serif;
+$default__font-size   : .875rem;
+$default__font-color  : #000000;
+
+$default__text-header: (
+    font-family : ('Poppins', sans-serif),
+    font-size   : 22px,
+    font-weight : 500,
+);
+$default__text-a: (
+    font-family : ('Poppins', sans-serif),
+    font-size   : 18px,
+    font-weight : 400,
+);
+$default__text-b: (
+    font-family : ('Poppins', sans-serif),
+    font-size   : 14px,
+    font-weight : 400,
+);
+$default__text-c: (
+    font-family : ('Poppins', sans-serif),
+    font-size   : 12px,
+    font-weight : 400,
+);
+$default__text-d: (
+    font-family : ('Poppins', sans-serif),
+    font-size   : 10px,
+    font-weight : 400,
+);
+$default__text-semi-d: (
+    font-family : ('Poppins', sans-serif),
+    font-size   : 10px,
+    font-weight : 600,
+);
+$default__border-color: map-get(map-get($default__theme-colors, neutral), base);
+
+$theme-colors   : null !default;
+$font-family    : null !default;
+$font-size      : null !default;
+$font-color     : null !default;
+$text-header    : null !default;
+$text-a         : null !default;
+$text-b         : null !default;
+$text-c         : null !default;
+$text-d         : null !default;
+$text-d         : null !default;
+$text-semi-d    : null !default;
+$border-color   : null !default;
+
+
+$theme-colors: if($theme-colors != null, map-merge($default__theme-colors, $theme-colors), $default__theme-colors);
+
+$font-family: if($font-family != null, $font-family, $default__font-family);
+$font-size: if($font-size != null, $font-size, $default__font-size);
+$font-color: if($font-color != null, $font-color, $default__font-color);
+
+$text-header: if($text-header != null, $text-header, $default__text-header);
+$text-a: if($text-a != null, $text-a, $default__text-a);
+$text-b: if($text-b != null, $text-b, $default__text-b);
+$text-c: if($text-c != null, $text-c, $default__text-c);
+$text-d: if($text-d != null, $text-d, $default__text-d);
+$text-semi-d: if($text-semi-d != null, $text-semi-d, $default__text-semi-d);
+
+$border-color: if($border-color != null, $border-color, $default__border-color);

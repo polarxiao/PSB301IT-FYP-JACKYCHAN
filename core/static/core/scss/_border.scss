@@ -1,0 +1,17 @@
+@for $i from 1 through 10 {
+    .border-#{$i} {
+        border: #{$i}px solid $border-color !important;
+    }
+    .border-top-#{$i} {
+        border-top: #{$i}px solid $border-color !important;
+    }
+    .border-right-#{$i} {
+        border-right: #{$i}px solid $border-color !important;
+    }
+    .border-bottom-#{$i} {
+        border-bottom: #{$i}px solid $border-color !important;
+    }
+    .border-left-#{$i} {
+        border-left: #{$i}px solid $border-color !important;
+    }
+}

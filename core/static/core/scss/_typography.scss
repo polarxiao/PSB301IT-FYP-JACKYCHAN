@@ -1,0 +1,74 @@
+@for $i from 1 through 36 {
+    .text-#{$i} {
+        font-size: #{$i}px !important;
+    }
+}
+
+@each $name, $color in $theme-colors {
+    .text-#{$name} {
+        color: map-get($color, base) !important;
+    }
+
+    .text-#{$name}-alt {
+        color: map-get($color, alt) !important;
+    }
+
+    .text-header-#{$name} {
+        color: map-get($color, base) !important;
+        font-family: map-get($text-header, font-family);
+        font-size: map-get($text-header, font-size);
+        font-weight: map-get($text-header, font-weight);
+    }
+
+    .text-a-#{$name} {
+        color: map-get($color, base) !important;
+        font-family: map-get($text-a, font-family);
+        font-size: map-get($text-a, font-size);
+        font-weight: map-get($text-a, font-weight);
+    }
+
+    .text-b-#{$name} {
+        color: map-get($color, base) !important;
+        font-family: map-get($text-b, font-family);
+        font-size: map-get($text-b, font-size);
+        font-weight: map-get($text-b, font-weight);
+    }
+
+    .text-c-#{$name} {
+        color: map-get($color, base) !important;
+        font-family: map-get($text-c, font-family);
+        font-size: map-get($text-c, font-size);
+        font-weight: map-get($text-c, font-weight);
+    }
+
+    .text-d-#{$name} {
+        color: map-get($color, base) !important;
+        font-family: map-get($text-d, font-family);
+        font-size: map-get($text-d, font-size);
+        font-weight: map-get($text-d, font-weight);
+    }
+
+    .text-semi-d-#{$name} {
+        color: map-get($color, base) !important;
+        font-family: map-get($text-semi-d, font-family);
+        font-size: map-get($text-semi-d, font-size);
+        font-weight: map-get($text-semi-d, font-weight);
+    }
+}
+
+
+.text-transform-capitalize {
+    text-transform: capitalize !important;
+}
+
+.text-transform-lowercase {
+    text-transform: lowercase !important;
+}
+
+.text-transform-none {
+    text-transform: none !important;
+}
+
+.text-transform-uppercase {
+    text-transform: uppercase !important;
+}

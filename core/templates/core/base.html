@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    {% load compress %}
+
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block page_name %}{% endblock page_name %}</title>
+
+    <!-- material icons -->
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,700&display=swap" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'vendor/mdbootstrap/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="{% static 'vendor/mdbootstrap/mdb.min.css' %}" rel="stylesheet">
+    <!-- other css library based on page -->
+    {% block lib_css %}{% endblock lib_css %}
+    {% compress css %}
+        <!-- global scss -->
+        <link href="{% static 'core/scss/base.scss' %}" rel="stylesheet" type="text/x-scss" media="screen">
+        <!-- scss based on page -->
+        {% block static_css %}{% endblock static_css %}
+    {% endcompress %}
+</head>
+
+<body>
+{% block body %}
+    <div class="wrapper">
+        {% block wrapper %}
+            <!-- Page Loader -->
+            <div class="loader">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only"></span>
+                </div>
+            </div>
+            <!-- Header -->
+            <header>
+                {% block header %}
+                    <div class="header-left">
+                        <div class="container">
+                            {% block header_left %}{% endblock header_left %}
+                        </div>
+                    </div>
+                    <div class="header-middle">
+                        <div class="container">
+                            {% block header_middle %}
+                            {% endblock header_middle %}
+                        </div>
+                    </div>
+                    <div class="header-right">
+                        <div class="container">
+                            {% block header_right %}{% endblock header_right %}
+                        </div>
+                    </div>
+                {% endblock header %}
+            </header>
+            <!-- Content -->
+            <main>
+                {% block content %}{% endblock content %}
+            </main>
+            <!-- Footer -->
+            <footer>
+                {% block footer %}{% endblock footer %}
+            </footer>
+        {% endblock wrapper %}
+    </div>
+    <!-- django js translation -->
+    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+    <!-- data js -->
+    {% block data_js %}
+    {% endblock data_js %}
+    {% compress js %}
+        <!-- JQuery -->
+        <script type="text/javascript" src="{% static 'vendor/mdbootstrap/jquery.min.js' %}"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="{% static 'vendor/mdbootstrap/popper.min.js' %}"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="{% static 'vendor/mdbootstrap/bootstrap.min.js' %}"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="{% static 'vendor/mdbootstrap/mdb.min.js' %}"></script>
+    {% endcompress %}
+    <!-- other js library based on page, out from `compress`` tag to be able to include js using url -->
+    {% block lib_js %}{% endblock lib_js %}
+    {% compress js %}
+        <!-- global js -->
+        <script type="text/javascript" src="{% static 'core/js/base.js' %}"></script>
+        <!-- js based on page -->
+        {% block static_js %}{% endblock static_js %}
+    {% endcompress %}
+    <!-- CSRF Token -->
+    {% csrf_token %}
+    <script type="text/javascript">var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();</script>
+{% endblock body %}
+</body>
+</html>

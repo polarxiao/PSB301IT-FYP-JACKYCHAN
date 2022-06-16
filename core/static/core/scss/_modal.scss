@@ -1,0 +1,26 @@
+.modal-dialog {
+    .modal-content {
+        border-radius: 10px;
+
+        .modal-header {
+            background-color: map-get(map-get($theme-colors, primary), base);
+            color: map-get(map-get($theme-colors, primary), alt);
+            font-family: map-get($text-header, font-family);
+            font-size: map-get($text-header, font-size);
+            font-weight: map-get($text-header, font-weight);
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .modal-body {
+            color: map-get(map-get($theme-colors, dark), base);
+            font-family: map-get($text-c, font-family);
+            font-size: map-get($text-c, font-size);
+            font-weight: map-get($text-c, font-weight);
+        }
+
+        .modal-footer {
+            border: 0;
+        }
+    }
+}

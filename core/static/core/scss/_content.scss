@@ -1,0 +1,127 @@
+/* WRAPPER */
+body > .wrapper {
+    height: 100vh;
+    width: 100%;
+
+    /* HEADER */
+    &> header {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 18px 30px 18px;
+
+        .container {
+            padding: 0;
+        }
+
+        #form-set-language {
+            display: flex;
+            align-items: center;
+    
+            select#language {
+                max-height: 32px;
+                line-height: 18px;
+                font-weight: 400;
+                padding: 0;
+                margin-right: 5px;
+                border: none;
+                background: none;
+                text-decoration: underline;
+            }
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            width: 30%;
+
+            .container {
+                display: flex;
+                justify-content: flex-start;
+            }
+
+            button, a {
+                font-size: 20px;
+                padding: 0;
+                margin: 0;
+                display: flex;
+
+                &:active, &:focus, &:hover {
+                    text-decoration: none;
+                }
+            }
+        }
+
+        .header-middle {
+            display: flex;
+            align-items: center;
+            width: 40%;
+
+            .container {
+                display: flex;
+                justify-content: center;
+            }
+
+            #hotel-logo {
+                max-height: 32px;
+                width: auto;
+            }
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            width: 30%;
+
+            .container {
+                display: flex;
+                justify-content: flex-end;
+            }
+        }
+    }
+
+
+    /* CONTENT */
+    &> main {
+        max-width: 375px;
+        min-height: calc(100vh - 110px);
+        padding: 0 18px;
+        margin: 0 auto;
+
+        &.no-header {
+            min-height: calc(100vh - 110px + 56px);
+        }
+
+        .page-header {
+            font-family: map-get($text-header, font-family);
+            font-size: map-get($text-header, font-size);
+            font-weight: map-get($text-header, font-weight);
+            color: map-get(map-get($theme-colors, primary), base);
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .page-subheader {
+            font-family: map-get($text-c, font-family);
+            font-size: map-get($text-c, font-size);
+            font-weight: map-get($text-c, font-weight);
+            color: map-get(map-get($theme-colors, dark), base);
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .page-content {
+            margin-bottom: 60px;
+        }
+    }
+
+
+    /* FOOTER */
+    &> footer {
+        padding: 15px 20px;
+
+        .container.powered {
+            display: flex;
+            justify-content: center;
+        }
+    }
+}

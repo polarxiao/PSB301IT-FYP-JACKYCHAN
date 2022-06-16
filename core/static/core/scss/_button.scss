@@ -1,0 +1,79 @@
+.btn {
+    font-family: map-get($text-a, font-family);
+    font-size: map-get($text-a, font-size);
+    font-weight: map-get($text-a, font-weight);
+    border-radius: 8px;
+    text-transform: none;
+
+    &.btn-block {
+        max-width: 310px;
+    }
+
+    &.btn-side {
+        width: 100%;
+        max-width: 160px;
+        margin: inherit;
+    }
+
+    &.btn-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        transition: none;
+    }
+}
+
+@each $name, $color in $theme-colors {
+    .btn-#{$name} {
+        background-color: map-get($color, base) !important;
+        color: map-get($color, alt) !important;
+
+        &:not([disabled]):not(.disabled):active,
+        &:not([disabled]):not(.disabled).active,
+        &:not([disabled]):not(.disabled):focus,
+        &:not([disabled]):not(.disabled).focus,
+        &:not([disabled]):not(.disabled):hover,
+        &:not([disabled]):not(.disabled).hover,
+        &:not([disabled]):not(.disabled):active:focus,
+        &:not([disabled]):not(.disabled).active:focus,
+        &:not([disabled]):not(.disabled):active.focus,
+        &:not([disabled]):not(.disabled).active.focus {
+            background-color: map-get($color, base) !important;
+        }
+
+        &:disabled, &.disabled {
+            background-color: map-get(map-get($theme-colors, neutral), base) !important;
+            border-color: map-get(map-get($theme-colors, neutral), base) !important;
+            color: map-get(map-get($theme-colors, neutral), alt) !important;
+            opacity: 1;
+        }
+    }
+
+    .btn-outline-#{$name} {
+        background-color: transparent !important;
+        color: map-get($color, base) !important;
+        border: 2px solid map-get($color, base) !important;
+
+        &:not([disabled]):not(.disabled):active,
+        &:not([disabled]):not(.disabled).active,
+        &:not([disabled]):not(.disabled):focus,
+        &:not([disabled]):not(.disabled).focus,
+        &:not([disabled]):not(.disabled):hover,
+        &:not([disabled]):not(.disabled).hover,
+        &:not([disabled]):not(.disabled):active:focus,
+        &:not([disabled]):not(.disabled).active:focus,
+        &:not([disabled]):not(.disabled):active.focus,
+        &:not([disabled]):not(.disabled).active.focus {
+            color: map-get($color, base) !important;
+            border: 2px solid map-get($color, base) !important;
+        }
+
+        &:disabled, &.disabled {
+            color: map-get(map-get($theme-colors, neutral), base) !important;
+            border: 2px solid map-get(map-get($theme-colors, neutral), base) !important;
+        }
+    }
+}
