@@ -1,0 +1,77 @@
+{% extends 'check_in/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block static_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'check_in/scss/complete.scss' %}">
+{% endblock static_css %}
+
+{% block header_left %}
+    <a href="{% url 'check_in:fr' %}" class="btn btn-link"><span class="material-icons-outlined">arrow_back_ios</span></a>
+    {{ block.super }}
+{% endblock header_left %}
+
+{% block content %}
+    {{ block.super }}
+    <div class="row page-header">
+        <div class="col-12">
+                Check-in Completed
+        </div>
+    </div>
+    <div class="row page-subheader">
+        <div class="col-12">
+            The result below are validated from the ID and Selfie submission.
+        </div>
+    </div>
+    <div class="row page-content">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-8">
+                    ID Image:
+                </div>
+                <div class="col-lg-12">
+                    <img width="100%" src="data:image/png;base64,{{ request.session.check_in.reservation.idImage }}"/>
+                </div>
+                <div class="col-8">
+                    <br>
+                    Selfie Image:
+                </div>
+                <div class="col-lg-12">
+                    <img width="100%" src="data:image/png;base64,{{ request.session.check_in.reservation.fr_image }}"/>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-lg-8 mx-auto text-center {% if request.session.check_in.reservation.confidence > 80 %} text-success {% else %} text-danger {% endif %}">
+                    <h5>
+                        {% if request.session.check_in.reservation.confidence > 80 %}
+                            Matched!
+                        {% else %}
+                            Face Not Matched!
+                        {% endif %}
+                    </h5>
+                    {% if request.session.check_in.reservation.confidence > 80 %}
+                    <small>Score: {{ request.session.check_in.reservation.confidence }}</small>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row page-footer">
+        <div class="col-6">
+            <a href="{% url 'check_in:fr' %}" class="btn btn-outline-primary btn-side px-3">Re-submit</a>
+        </div>
+        <div class="col-6">
+            <a href="{% url 'check_in:login' %}" class="btn btn-primary btn-side px-3">Ok</a>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block data_js %}
+    {{ block.super }}
+{% endblock data_js %}
+
+{% block static_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'check_in/js/complete.js' %}"></script>
+{% endblock static_js %}

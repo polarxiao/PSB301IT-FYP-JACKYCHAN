@@ -1,0 +1,124 @@
+{% extends 'check_in/base.html' %}
+{% load static %}
+{% load widget_tweaks %} 
+
+{% block lib_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap-datepicker/bootstrap-datepicker.min.css' %}">
+{% endblock lib_css %}
+
+{% block static_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'check_in/scss/login.scss' %}" type="text/x-scss" media="screen">
+{% endblock static_css %}
+
+{% block header_left %}
+    {% if not request.session.app %}
+        <a href="{% url 'core:index' %}?next={{ request.path }}" class="btn btn-link">
+            <span class="material-icons-outlined">home</span>
+        </a>
+    {% endif %}
+    {{ block.super }}
+{% endblock header_left %}
+
+{% block content %}
+    {{ block.super }}
+    <form method="post" autocomplete="off">
+        {% csrf_token %}
+        <div class="row page-header">
+            <div class="col-lg-12">
+                Enter reservation details
+            </div>
+        </div>
+        <div class="row page-content">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="md-form">
+                            {% if form.is_bound and form.reservation_no.errors %}
+                                {% render_field form.reservation_no class="form-control is-invalid" placeholder=reservation_no_placeholder %}
+                                {{ form.reservation_no.label_tag }}
+                                {% for error in form.reservation_no.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            {% else %}
+                                {% render_field form.reservation_no class="form-control" placeholder="e.g. 12345" %}
+                                {{ form.reservation_no.label_tag }}
+                                {% if form.reservation_no.help_text %}
+                                    <small class="form-text text-muted">{{ form.reservation_no.help_text }}</small>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="md-form input-with-post-icon">
+                            {% if form.is_bound and form.check_in_date.errors %}
+                                {% render_field form.check_in_date class="form-control datepicker is-invalid" data-date-format="yyyy-mm-dd" placeholder="yyyy-mm-dd" %}
+                                {{ form.check_in_date.label_tag }}
+                                {% for error in form.check_in_date.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            {% else %}
+                                {% render_field form.check_in_date class="form-control datepicker" data-date-format="yyyy-mm-dd" placeholder="yyyy-mm-dd" %}
+                                <span class="material-icons-outlined input-prefix text-dark">date_range</span>
+                                {{ form.check_in_date.label_tag }}
+                                {% if form.check_in_date.help_text %}
+                                    <small class="form-text text-muted">{{ form.check_in_date.help_text }}</small>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row page-footer">
+            <div class="col-lg-12 d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary btn-block m-0" id="btn-step-next" disabled>Next</button>
+            </div>
+        </div>
+    </form>
+{% endblock content %}
+
+{% block wrapper %}
+    {{ block.super }}
+    <!-- Error Modal -->
+    {% for error in form.non_field_errors %}
+        <div class="modal fade auto-show" id="form-error-modal-{{ forloop.counter0 }}" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <div class="modal-title mx-auto">
+                            {% if error == '2004' %}
+                                Invalid Input
+                            {% else %}
+                                check_in_login:error_modal_title:other
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        {% if error == '2004' %}
+                            Unable to retrieve reservation information from database
+                        {% else %}
+                            check_in_login:error_modal_body:other
+                        {% endif %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary mx-auto" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock wrapper %}
+
+{% block lib_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'vendor/bootstrap-datepicker/bootstrap-datepicker.min.js' %}"></script>
+{% endblock lib_js %}
+
+{% block static_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'check_in/js/login.js' %}"></script>
+{% endblock static_js %}
