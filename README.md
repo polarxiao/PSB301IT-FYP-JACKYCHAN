@@ -2,7 +2,7 @@
 
 This is a Final Year Project program developed by Jacky Chan Yoon Long
 
------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 
 Project Title: Secured Facial Recognition Check-In Solution For Hotels In MALAYSIA
 
@@ -18,9 +18,9 @@ SUPERVISOR : Mr. ADAIKKALAVAN MCA
 
 CAMPUS : PSB ACADEMY / COVENTRY UNIVERSITY
 
------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 
-**Notes**
+**Notes:**
 
 1. Reservation number can be any number.
 
@@ -34,11 +34,3 @@ CAMPUS : PSB ACADEMY / COVENTRY UNIVERSITY
 - Card holder name  : (Any name)
 - Expiry date       : (Any future date)
 - CVC               : (Any number)
-
-
-
-
-
-
-
-
