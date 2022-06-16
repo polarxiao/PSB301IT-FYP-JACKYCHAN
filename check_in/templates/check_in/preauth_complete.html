@@ -1,0 +1,64 @@
+{% extends 'check_in/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block static_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'check_in/scss/preauth_complete.scss' %}" type="text/x-scss" media="screen">
+{% endblock static_css %}
+
+{% block content %}
+    {{ block.super }}
+    <form method="post" autocomplete="off">
+        {% csrf_token %}
+        <div class="row page-header">
+            <div class="col-lg-12">
+                Payment information saved successfully
+            </div>
+        </div>
+        <div class="row page-subheader">
+            <div class="col-lg-12">
+                We have successfully confirmed your payment method for your billing purposes.
+            </div>
+        </div>
+        <div class="row page-content">
+            <div class="col-lg-12 d-flex justify-content-center">
+            </div>
+        </div>
+        <div class="row page-footer">
+            <div class="col-lg-12 d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary btn-block m-0">Next</button>
+            </div>
+        </div>
+    </form>
+{% endblock content %}
+
+{% block wrapper %}
+    {{ block.super }}
+    <!-- Error Modal -->
+    {% for error in form.non_field_errors %}
+        <div class="modal fade auto-show" id="error-modal-{{ forloop.counter0 }}" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title mx-auto">Invalid Input</div>
+                    </div>
+                    <div class="modal-body">
+                        {{ error|linebreaks }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary mx-auto" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock wrapper %}
+
+{% block lib_js %}
+{% endblock lib_js %}
+
+{% block static_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'check_in/js/preauth_complete.js' %}"></script>
+{% endblock static_js %}
