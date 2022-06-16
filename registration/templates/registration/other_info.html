@@ -1,0 +1,109 @@
+{% extends 'registration/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block static_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'registration/scss/other_info.scss' %}" type="text/x-scss" media="screen">
+{% endblock static_css %}
+
+{% block header_left %}
+    <a href="{% url 'registration:preference' %}" class="btn btn-link"><span class="material-icons-outlined">arrow_back_ios</span></a>
+    {{ block.super }}
+{% endblock header_left %}
+
+{% block content %}
+    {{ block.super }}
+    <form method="post" autocomplete="off">
+        {% csrf_token %}
+        <div class="row page-header">
+            <div class="col-lg-12">
+                Enter email address
+            </div>
+        </div>
+        <div class="row page-subheader">
+            <div class="col-lg-12">
+                Please provide an email address for us to send you the confirmation email.
+            </div>
+        </div>
+        <div class="row page-content">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="md-form mt-2">
+                            {% if form.is_bound and form.email.errors %}
+                                <!-- bound and has error -->
+                                {% render_field form.email class="form-control filled text-center is-invalid" placeholder="e.g. example@email.com" %}
+                                <!-- error feedback -->
+                                {% for error in form.email.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            {% else %}
+                                <!-- not bound or no error -->
+                                {% render_field form.email class="form-control filled text-center" placeholder="e.g. example@email.com" %}
+                                {% if form.email.help_text %}
+                                    <small class="form-text text-muted">{{ form.email.help_text }}</small>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-lg-12">
+                        <div class="form-check pl-0" id="terms-conditions">
+                            <label class="check-container {% if form.is_agreed_tnc.errors %}is-invalid{% endif %}">
+                                <span class="label-check text-c-dark">
+                                        We are commited to protecting your privacy. By proceeding, you agree to our <a href="{{ tnc_link }}" target="_blank" class="new-window-link">Terms &amp; Conditions</a>.
+                                        View our Global Privacy Statement <a href="{{ privacy_link }}" target="_blank" class="new-window-link">here</a>.
+                                </span>
+                                {% render_field form.is_agreed_tnc class="check-input" %}
+                                <span class="check-icon"></span>
+                            </label>
+                            <!-- error feedback -->
+                            {% for error in form.is_agreed_tnc.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row page-footer">
+            <div class="col-12 d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary btn-block" id="btn-submit">Next</button>
+            </div>
+        </div>
+    </form>
+{% endblock content %}
+
+{% block wrapper %}
+    {{ block.super }}
+    <!-- Error Modal -->
+    {% for error in form.non_field_errors %}
+        <div class="modal fade auto-show" id="error-modal-{{ forloop.counter0 }}" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title mx-auto">Invalid Input</div>
+                    </div>
+                    <div class="modal-body">
+                        {{ error|linebreaks }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary mx-auto" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock wrapper %}
+
+{% block data_js %}
+    {{ block.super }}
+    {{ request.session.app|json_script:'app' }}
+{% endblock data_js %}
+
+{% block static_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'registration/js/other_info.js' %}"></script>
+{% endblock static_js %}

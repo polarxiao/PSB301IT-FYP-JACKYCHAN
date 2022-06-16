@@ -1,0 +1,268 @@
+{% extends 'registration/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% load countries %}
+
+{% block lib_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap-datepicker/bootstrap-datepicker.min.css' %}">
+{% endblock lib_css %}
+
+{% block static_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'registration/scss/detail.scss' %}" type="text/x-scss" media="screen">
+{% endblock static_css %}
+
+{% block header_left %}
+    <button type="button" class="btn btn-link" id="btn-back" data-target="{% url 'registration:guest_list' %}"><span class="material-icons-outlined">arrow_back_ios</span></button>
+    {{ block.super }}
+{% endblock header_left %}
+
+{% block content %}
+    {{ block.super }}
+    {% get_countries as countries %}
+    <form method="post" autocomplete="off">
+        {% csrf_token %}
+        <div class="row page-subheader">
+            <div class="col-lg-12">
+                {% if ocr_required and not object.idImage %}
+                    The details below are retrieved from the booking information. You can manually edit them later after the Passport submission.
+                {% else %}
+                    Please verify the guest's details below.
+                {% endif %}
+            </div>
+        </div>
+        <div class="row page-content">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="md-form">
+                            {% if form.is_bound and form.first_name.errors %}
+                                {% if ocr_required and not object.idImage %}
+                                    {% render_field form.first_name class="form-control is-invalid disabled" readonly="true" placeholder="-" %}
+                                {% else %}
+                                    {% render_field form.first_name class="form-control is-invalid" placeholder="Enter your name" %}
+                                {% endif %}
+                                {{ form.first_name.label_tag }}
+                                {% for error in form.first_name.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            {% else %}
+                                {% if ocr_required and not object.idImage %}
+                                    {% render_field form.first_name class="form-control disabled" readonly="true" placeholder="-" %}
+                                {% else %}
+                                    {% render_field form.first_name class="form-control" placeholder="Enter your name" %}
+                                {% endif %}
+                                {{ form.first_name.label_tag }}
+                                {% if form.first_name.help_text %}
+                                    <small class="form-text text-muted">{{ form.first_name.help_text }}</small>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="md-form">
+                            {% if form.is_bound and form.last_name.errors %}
+                                {% if ocr_required and not object.idImage %}
+                                    {% render_field form.last_name class="form-control is-invalid disabled" readonly="true" placeholder="-" %}
+                                {% else %}
+                                    {% render_field form.last_name class="form-control is-invalid" placeholder="Enter your name" %}
+                                {% endif %}
+                                {{ form.last_name.label_tag }}
+                                {% for error in form.last_name.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            {% else %}
+                                {% if ocr_required and not object.idImage %}
+                                    {% render_field form.last_name class="form-control disabled" readonly="true" placeholder="-" %}
+                                {% else %}
+                                    {% render_field form.last_name class="form-control" placeholder="Enter your name" %}
+                                {% endif %}
+                                {{ form.last_name.label_tag }}
+                                {% if form.last_name.help_text %}
+                                    <small class="form-text text-muted">{{ form.last_name.help_text }}</small>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="md-form">
+                            {% if form.is_bound and form.id_no.errors %}
+                                {% if ocr_required and not object.idImage %}
+                                    {% render_field form.id_no class="form-control is-invalid disabled" readonly="true" placeholder="-" %}
+                                {% else %}
+                                    {% render_field form.id_no class="form-control is-invalid" placeholder="e.g. A12345Z" %}
+                                {% endif %}
+                                {{ form.id_no.label_tag }}
+                                {% for error in form.id_no.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            {% else %}
+                                {% if ocr_required and not object.idImage %}
+                                    {% render_field form.id_no class="form-control disabled" readonly="true" placeholder="-" %}
+                                {% else %}
+                                    {% render_field form.id_no class="form-control" placeholder="e.g. A12345Z" %}
+                                {% endif %}
+                                {{ form.id_no.label_tag }}
+                                {% if form.id_no.help_text %}
+                                    <small class="form-text text-muted">{{ form.id_no.help_text }}</small>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="md-form">
+                            {% if form.is_bound and form.nationality.errors %}
+                                {% if ocr_required and not object.idImage %}
+                                    {% render_field form.nationality class="form-control md-select is-invalid disabled" readonly="true" %}
+                                {% else %}
+                                    {% render_field form.nationality class="form-control md-select is-invalid" %}
+                                {% endif %}
+                                <label for="id_nationality" class="active">Nationality</label>
+                                {% for error in form.nationality.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            {% else %}
+                                {% if ocr_required and not object.idImage %}
+                                    {% render_field form.nationality class="form-control md-select disabled" readonly="true" %}
+                                {% else %}
+                                    {% render_field form.nationality class="form-control md-select" %}
+                                {% endif %}
+                                <label for="id_nationality" class="active">Nationality</label>
+                                {% if form.nationality.help_text %}
+                                    <small class="form-text text-muted">{{ form.nationality.help_text }}</small>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="md-form input-with-post-icon">
+                            {{ form.birth_date.label_tag }}
+                            {% if form.is_bound and form.birth_date.errors %}
+                                {% if ocr_required and not object.idImage %}
+                                    {% render_field form.birth_date class="form-control datepicker is-invalid disabled" data-date-format="yyyy-mm-dd" readonly="true" placeholder="-" %}
+                                {% else %}
+                                    {% render_field form.birth_date class="form-control datepicker is-invalid" data-date-format="yyyy-mm-dd" placeholder="YYYY-MM-DD" %}
+                                {% endif %}
+                                {{ form.birth_date.label_tag }}
+                                {% for error in form.birth_date.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            {% else %}
+                                {% if ocr_required and not object.idImage %}
+                                    {% render_field form.birth_date class="form-control datepicker disabled" data-date-format="yyyy-mm-dd" readonly="true" placeholder="-" %}
+                                {% else %}
+                                    {% render_field form.birth_date class="form-control datepicker" data-date-format="yyyy-mm-dd" placeholder="YYYY-MM-DD" %}
+                                    <span class="material-icons-outlined input-prefix text-dark">date_range</span>
+                                {% endif %}
+                                {{ form.birth_date.label_tag }}
+                                {% if form.birth_date.help_text %}
+                                    <small class="form-text text-muted">{{ form.birth_date.help_text }}</small>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% if ocr_required %}
+                    {% if not object.idImage %}
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-check pl-0">
+                                    <label class="check-container">
+                                        <span class="label-check">Automatically update these details with the data extracted from Passport.</span>
+                                        {% render_field form.is_overwrite class="check-input" %}
+                                        <span class="check-icon"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <span class="text-c-neutral text-uppercase">
+                                    Passport submitted
+                                    &nbsp;
+                                    <span class="material-icons-outlined">done</span>
+                                </span>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row page-footer">
+            <div class="col-lg-12">
+                {% if ocr_required %}
+                    {% if not object.idImage %}
+                        <div class="row">
+                            <div class="col-lg-12 mb-3 d-flex justify-content-center">
+                                <button type="submit" class="btn btn-primary btn-block btn-ocr">
+                                    Submit Passport
+                                </button>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="row">
+                            <div class="col-lg-12 d-flex justify-content-center">
+                                {% render_field form.is_submit hidden=true %}
+                                <button type="submit" class="btn btn-primary btn-block" id="btn-save">Save &amp; go to guest list</button>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="row">
+                        <div class="col-lg-12 d-flex justify-content-center">
+                            {% render_field form.is_submit hidden=true %}
+                            <button type="submit" class="btn btn-primary btn-block" id="btn-save">Save &amp; go to guest list</button>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </form>
+{% endblock content %}
+
+{% block wrapper %}
+    {{ block.super }}
+    <!-- form error -->
+    {% for error in form.non_field_errors %}
+        <div class="modal fade auto-show" id="error-modal-{{ forloop.counter0 }}" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title mx-auto">Invalid Input</div>
+                    </div>
+                    <div class="modal-body">
+                        {{ error|linebreaks }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary mx-auto" data-dismiss="modal">Fix</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock wrapper %}
+
+{% block data_js %}
+    {{ block.super }}
+    {{ request.session.registration.detail.isMainGuest|json_script:'is-main-guest' }}
+{% endblock data_js %}
+
+{% block lib_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'vendor/bootstrap-datepicker/bootstrap-datepicker.min.js' %}"></script>
+{% endblock lib_js %}
+
+{% block static_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'registration/js/detail.js' %}"></script>
+{% endblock static_js %}

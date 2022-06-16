@@ -1,0 +1,126 @@
+{% extends 'registration/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block lib_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'vendor/croppie/croppie.min.css' %}">
+{% endblock lib_css %}
+
+{% block static_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'registration/scss/ocr.scss' %}" type="text/x-scss" media="screen">
+{% endblock static_css %}
+
+{% block header_left %}
+    <a href="{% url 'registration:detail' encrypted_id %}" class="btn btn-link"><span class="material-icons-outlined">arrow_back_ios</span></a>
+    {{ block.super }}
+{% endblock header_left %}
+
+{% block content %}
+    {{ block.super }}
+    <form method="post" id="form-ocr" autocomplete="off">
+        {% csrf_token %}
+        <div class="row page-header">
+            <div class="col-lg-12">
+                Submit Passport Image
+            </div>
+        </div>
+        <div class="row page-subheader">
+            <div class="col-lg-12">
+                <div class="default-container">
+                    <p class="mb-0">Few pointers to take note:</p>
+                    <ol class="mb-0 pl-3">
+                        <li>Environment is not dark or dimmed.</li>
+                        <li>Text and/or image are visible and not cut-off.</li>
+                        <li>Image is clear and not blurred.</li>
+                    </ol>
+                </div>
+                <div class="webcam-container" style="display: none;">
+                    Please adjust the passport image to ensure all information is within the box.
+                </div>
+            </div>
+        </div>
+        <div class="row page-content">
+            <div class="col-lg-12 d-flex justify-content-center">
+                {% render_field form.ocr_file %}
+                <div class="default-container">
+                </div>
+                <div class="webcam-container" style="display: none;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <video id="vid-webcam" autoplay width="427" height="320"/>
+                        </div>
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-lg-12 d-flex justify-content-center">
+                            <button type="button" class="btn btn-primary btn-side" id="btn-capture">Capture</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="preview-container" style="display: none;">
+                    <img id="img-preview">
+                </div>
+            </div>
+        </div>
+        <div class="row page-footer">
+            <div class="col-lg-12">
+                <div class="row default-container">
+                    <div class="col-lg-6">
+                        <button type="button" class="btn btn-outline-primary btn-side" id="btn-webcam">Take</button>
+                    </div>
+                    <div class="col-lg-6">
+                        <label class="btn btn-primary btn-side">
+                            Upload
+                            <input type="file" class="file-upload" accept="image/*" hidden>
+                        </label>
+                    </div>
+                </div>
+                <div class="row preview-container" style="display: none;">
+                    <div class="col-lg-6">
+                        <label class="btn btn-outline-primary btn-side px-4">
+                            Reupload
+                            <input type="file" class="file-upload" accept="image/*" hidden>
+                        </label>
+                    </div>
+                    <div class="col-lg-6">
+                        <button type="button" class="btn btn-primary btn-side" id="btn-next">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock content %}
+
+{% block wrapper %}
+    {{ block.super }}
+    <!-- Error Modal -->
+    {% for error in form.non_field_errors %}
+        <div class="modal fade auto-show" id="error-modal-{{ forloop.counter0 }}" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title mx-auto">Invalid Image</div>
+                    </div>
+                    <div class="modal-body">
+                        {{ error|linebreaks }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary mx-auto" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock wrapper %}
+
+{% block lib_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'vendor/compressorjs/compressor.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'vendor/croppie/croppie.min.js' %}"></script>
+{% endblock lib_js %}
+
+{% block static_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'registration/js/ocr.js' %}"></script>
+{% endblock static_js %}

@@ -1,0 +1,125 @@
+{% extends 'registration/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% load core_filters %}
+
+{% block static_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'registration/scss/guest_list.scss' %}" type="text/x-scss" media="screen">
+{% endblock static_css %}
+
+{% block header_left %}
+    {% if request.session.check_in.login|length > 1 %}
+        <a href="{% url 'check_in:reservation' %}" class="btn btn-link" {% if request.session.check_in.auto_login %} id="btn-skip-login" {% endif %}><span class="material-icons-outlined">arrow_back_ios</span></a>
+    {% else %}
+        <a href="{% url 'check_in:login' %}" class="btn btn-link" {% if request.session.check_in.auto_login %} id="btn-skip-login" {% endif %}><span class="material-icons-outlined">arrow_back_ios</span></a>
+    {% endif %}
+    {{ block.super }}
+{% endblock header_left %}
+
+{% block content %}
+    {{ block.super }}
+    <form method="post" autocomplete="off">
+        {% csrf_token %}
+        <div class="row page-header">
+            <div class="col-lg-12">
+                Guest List
+            </div>
+        </div>
+        <div class="row page-subheader">
+            <div class="col-lg-12">
+                Please verify the details for each of the guest(s) below to proceed with the check-in.
+            </div>
+        </div>
+        <div class="row page-content">
+            <div class="col-lg-12">
+                {% for guest in request.session.check_in.reservation.guestsList %}
+                    <div class="row guests-list">
+                        <div class="col-lg-12 pb-4 d-flex justify-content-center">
+                            {% if not guest.hasLocalRecord %}
+                                {% if guest.isMainGuest %} {# main guest #}
+                                    {% if not guest.is_done %} {# not done #}
+                                        <a href="{% url 'registration:detail' guest.guestId|encrypt %}" class="btn btn-primary" data-is-main-guest="{{ guest.isMainGuest }}">
+                                            {{ guest.firstName }} {{ guest.lastName }}
+                                            <span class="material-icons-outlined float-right">arrow_forward</span>
+                                        </a>
+                                    {% else %} {# done #}
+                                        <a href="{% url 'registration:detail' guest.guestId|encrypt %}" class="btn btn-outline-primary" data-is-main-guest="{{ guest.isMainGuest }}">
+                                            {{ guest.firstName }} {{ guest.lastName }}
+                                            <span class="material-icons-outlined float-right">edit</span>
+                                        </a>
+                                    {% endif %}
+                                {% else %} {# sharer guest #}
+                                    {% if not guest.is_done %} {# not done #}
+                                        <a href="{% url 'registration:detail' guest.guestId|encrypt %}" class="btn btn-outline-primary" data-is-main-guest="{{ guest.isMainGuest }}">
+                                            {{ guest.firstName }} {{ guest.lastName }}
+                                            <span class="material-icons-outlined float-right">arrow_forward</span>
+                                        </a>
+                                    {% else %} {# done #}
+                                        {% if guest.guestId == 0 %}
+                                            <a href="{% url 'registration:detail' guest.new_guest_id|encrypt %}" class="btn btn-outline-primary" data-is-main-guest="{{ guest.isMainGuest }}">
+                                                {{ guest.firstName }} {{ guest.lastName }}
+                                                <span class="material-icons-outlined float-right">edit</span>
+                                            </a>
+                                        {% else %}
+                                            <a href="{% url 'registration:detail' guest.guestId|encrypt %}" class="btn btn-outline-primary" data-is-main-guest="{{ guest.isMainGuest }}">
+                                                {{ guest.firstName }} {{ guest.lastName }}
+                                                <span class="material-icons-outlined float-right">edit</span>
+                                            </a>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            {% else %} {# adhoc guest, disable #}
+                                <button type="button" class="btn btn-outline-neutral" disabled>
+                                    {{ guest.firstName }} {{ guest.lastName }}
+                                    <span class="material-icons-outlined float-right">done</span>
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+                {% if add_guest %} {# based on max guests (adult + children) #}
+                    <div class="row">
+                        <div class="col-lg-12 mb-3 d-flex justify-content-center">
+                            <a href="{% url 'registration:detail' '0'|encrypt %}" class="btn btn-outline-primary" id="btn-add">+ Add Guest</a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        {% if can_submit %}
+            <div class="row page-footer">
+                <div class="col-lg-12 d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary btn-block">Next</button> {# based on guestsList if all done #}
+                </div>
+            </div>
+        {% endif %}
+    </form>
+{% endblock content %}
+
+{% block wrapper %}
+    {{ block.super }}
+    <!-- form error -->
+    {% for error in form.non_field_errors %}
+        <div class="modal fade auto-show" id="error-modal-{{ forloop.counter0 }}" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title mx-auto">Invalid Input</div>
+                    </div>
+                    <div class="modal-body">
+                        {{ error|linebreaks }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary mx-auto" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock wrapper %}
+
+{% block static_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'registration/js/guest_list.js' %}"></script>
+{% endblock static_js %}

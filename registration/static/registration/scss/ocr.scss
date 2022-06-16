@@ -1,0 +1,139 @@
+@mixin slider-track() {
+    background: rgba(255,255,255,.75);
+    height: 2px;
+}
+
+@mixin slider-thumb() {
+    height: 24px;
+    width: 8px;
+    border-radius: 0;
+    margin-top: -11px;
+    background: #fff;
+}
+
+main {
+    .page-content {
+        .default-container img {
+            width: 298px;
+        }
+    }
+}
+
+.croppie-container {
+    .cr-boundary {
+        background-color: rgba(#000, .6);
+        
+        #text-preview {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .cr-slider-wrap {
+            position: absolute;
+            bottom: 75px;
+            width: 100%;
+            margin: 0;
+            z-index: 2;
+        }
+
+        #rotate-container {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            z-index: 2;
+        }
+
+        #btn-rotate {
+            position: relative;
+            z-index: 1;
+            display: inline-block;
+            padding: 0;
+            overflow: hidden;
+            vertical-align: middle;
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+
+            span {
+                line-height: 56px;
+            }
+        }
+    }
+
+    .cr-slider {
+        width: 340px;
+
+        &::-webkit-slider-runnable-track { @include slider-track }
+        &::-moz-range-track { @include slider-track }
+        &::-ms-track { @include slider-track }
+
+        &::-webkit-slider-thumb { @include slider-thumb }
+        &::-moz-range-thumb { @include slider-thumb }
+        &::-ms-thumb { @include slider-thumb }
+    }
+    
+    .cr-viewport {
+        border: none;
+
+        .guide-top-right-1 {
+            border: 1.5px solid #fff;
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 88%;
+        }
+        .guide-top-right-2 {
+            border: 1.5px solid #fff;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 85%;
+        }
+        .guide-bottom-right-1 {
+            border: 1.5px solid #fff;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            left: 88%;
+        }
+        .guide-bottom-right-2 {
+            border: 1.5px solid #fff;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            top: 85%;
+        }
+        .guide-top-left-1 {
+            border: 1.5px solid #fff;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 88%;
+        }
+        .guide-top-left-2 {
+            border: 1.5px solid #fff;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 85%;
+        }
+        .guide-bottom-left-1 {
+            border: 1.5px solid #fff;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 88%;
+        }
+        .guide-bottom-left-2 {
+            border: 1.5px solid #fff;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            top: 85%;
+        }
+    }
+}

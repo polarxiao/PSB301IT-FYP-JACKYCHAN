@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block page_name %} StayMe | Registration{% endblock page_name %}
+
+{% block static_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'registration/scss/base.scss' %}" type="text/x-scss" media="screen">
+{% endblock static_css %}
+
+{% block header_right %}
+{% endblock header_right %}
+
+{% block wrapper %}
+    {{ block.super }}
+{% endblock wrapper %}
+
+{% block data_js %}
+    {{ block.super }}
+{% endblock data_js %}
+
+{% block static_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'registration/js/base.js' %}"></script>
+{% endblock static_js %}

@@ -1,0 +1,109 @@
+{% extends 'registration/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% load core_filters %}
+
+{% block static_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'registration/scss/preference.scss' %}" type="text/x-scss" media="screen">
+{% endblock static_css %}
+
+{% block header_left %}
+    <a href="{% url 'registration:guest_list' %}" class="btn btn-link"><span class="material-icons-outlined">arrow_back_ios</span></a>
+    {{ block.super }}
+{% endblock header_left %}
+
+{% block content %}
+    {{ block.super }}
+    <form method="post" autocomplete="off">
+        {% csrf_token %}
+        <div class="row page-header">
+            <div class="col-lg-12">
+                Enter your preferences
+            </div>
+        </div>
+        <div class="row page-content">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="md-form">
+                            <label for="id_arrival_time" class="active">Time of Arrival</label>
+                            {% if form.is_bound and form.arrival_time.errors %}
+                                <!-- bound and has error -->
+                                {% render_field form.arrival_time class="form-control md-select is-invalid" %}
+                                <!-- error feedback -->
+                                {% for error in form.arrival_time.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            {% else %}
+                                <!-- not bound or no error -->
+                                {% render_field form.arrival_time class="form-control md-select" %}
+                                {% if form.arrival_time.help_text %}
+                                    <small class="form-text text-muted">{{ form.arrival_time.help_text }}</small>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="md-form mt-2">
+                            {{ form.special_requests.label_tag }}
+                            {% if form.is_bound and form.special_requests.errors %}
+                                <!-- bound and has error -->
+                                {% render_field form.special_requests class="form-control is-invalid" placeholder="e.g. Extra Towels, etc" %}
+                                <!-- error feedback -->
+                                {% for error in form.special_requests.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            {% else %}
+                                <!-- not bound or no error -->
+                                {% render_field form.special_requests class="form-control" placeholder="e.g. Extra Towels, etc" %}
+                                {% if form.special_requests.help_text %}
+                                    <small class="form-text text-muted">{{ form.special_requests.help_text }}</small>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row page-footer">
+            <div class="col-12 d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary btn-block">Next</button>
+            </div>
+        </div>
+    </form>
+{% endblock content %}
+
+{% block wrapper %}
+    {{ block.super }}
+    <!-- Error Modal -->
+    {% for error in form.non_field_errors %}
+        <div class="modal fade auto-show" id="error-modal-{{ forloop.counter0 }}" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title mx-auto">Invalid Input</div>
+                    </div>
+                    <div class="modal-body">
+                        {{ error|linebreaks }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary mx-auto" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock wrapper %}
+
+{% block data_js %}
+    {{ block.super }}
+    {{ request.session.app|json_script:'app' }}
+{% endblock data_js %}
+
+{% block static_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'registration/js/preference.js' %}"></script>
+{% endblock static_js %}
