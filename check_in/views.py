@@ -5,7 +5,7 @@ from django.utils.translation   import gettext, gettext_lazy as _
 from django.views.generic       import *
 from core                       import utils
 from core.views                 import IndexView
-from core.mixins                import PropertyRequiredMixin, RequestFormKwargsMixin, JSONResponseMixin
+from core.mixins                import PropertyRequiredMixin, RequestFormKwargsMixin
 from .forms                     import (CheckInLoginForm, CheckInReservationForm,
                                         CheckInPreauthForm, CheckInPreauthCompleteForm, CheckInFrForm)
 from .mixins                    import ParameterRequiredMixin
@@ -21,11 +21,8 @@ class CheckInDataView(RedirectView):
     def get(self, request, *args, **kwargs):
         request.session['check_in'] = {'preload': {}}
         if 'property' in request.GET: request.session['property_id'] = request.GET.get('property', None)
-        if 'app' in request.GET: request.session['app'] = request.GET.get('app', 0)
-        if 'auto_login' in request.GET: request.session['check_in']['preload']['auto_login'] = request.GET.get('auto_login', 0)
         if 'reservation_no' in request.GET: request.session['check_in']['preload']['reservation_no'] = request.GET.get('reservation_no', '')
         if 'check_in_date' in request.GET: request.session['check_in']['preload']['check_in_date'] = request.GET.get('check_in_date', '')
-        if 'device_id' in request.GET: request.session['check_in']['preload']['device_id'] = request.GET.get('device_id', '')
         if 'selected_reservation_no' in request.GET: request.session['check_in']['preload']['selected_reservation_no'] = request.GET.get('selected_reservation_no', '')
         return super().get(request, *args, **kwargs)
 
@@ -85,12 +82,6 @@ class CheckInReservationView(ParameterRequiredMixin, PropertyRequiredMixin, Requ
 
     def form_valid(self, form):
         form.save()
-        if self.request.session['check_in'].get('reservation', {}).get('status_code', '') in ('2002', '2010'):
-            # mark all done
-            self.request.session['check_in']['reservation']['complete'] = 'success' if self.request.session['check_in'].get('reservation', {}).get('status_code', '') == '2010' else 'pending'
-            self.request.session['check_in']['preauth'] = True
-            self.request.session['check_in']['fr'] = True
-            return redirect('check_in:complete') # redirect to complete
         return super().form_valid(form)
 
     def get_success_url(self):
